@@ -1,0 +1,206 @@
+.App
+  text-align: center
+  width: 100vw
+  height: 100vh
+  display: flex
+  flex-direction: column
+
+  .names_and-container
+    box-sizing: border-box
+    width: 50vw
+    padding: 80px
+    display: flex
+    justify-content: center
+    align-items: center
+    align-self: flex-end
+    p
+      color: white
+      font-size: 140px
+      margin: 0
+      height: 110px
+      text-align: left
+      font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif
+    .names-container
+      display: flex
+      flex-direction: column
+      align-content: flex-start
+
+  .background
+    width: 50vw
+    height: 100vh
+    background-image: url("./assets/images/bg.jpg")
+    background-size: cover
+    background-position: center
+    align-self: flex-end
+
+  .fullWidth
+    width: 100vw !important
+
+  .disappear
+    opacity: 0 !important
+  
+  .appear
+    opacity: 1 !important
+    pointer-events: auto !important
+
+  .left_half-container
+    height: 100vh
+    width: 50vw
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    background-color: #331F0F
+    position: absolute
+    -webkit-transition: width 1.5s
+    -moz-transition: width 1.5s
+    -ms-transition: width 1.5s
+    -o-transition: width 1.5s
+    transition: width 1.5s
+    .date
+      font-family: 'Montserrat', sans-serif
+      color: white
+      font-weight: lighter
+      font-size: 20px
+    .title
+      color: white
+      font-size: 40px
+      font-family: 'Montserrat', sans-serif
+    .rsvp-container
+      align-self: center
+      height: 20px
+      margin: 30px auto 0 auto
+      width: 200px
+      display: flex
+      justify-content: space-between
+      align-items: center
+      .dot
+        width: 4px
+        height: 4px
+        border-radius: 2px
+        background-color: white
+
+  .code-modal
+    position: fixed
+    z-index: 1
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+    opacity: 1
+    -webkit-transition: opacity 0.5s ease-in-out
+    -moz-transition: opacity 0.5s ease-in-out
+    -ms-transition: opacity 0.5s ease-in-out
+    -o-transition: opacity 0.5s ease-in-out
+    transition: opacity 0.5s ease-in-out
+    .code-container
+      align-self: center
+      margin-bottom: 100px
+      border: 1px white solid
+      width: 250px
+      padding: 20px
+      backdrop-filter: blur(2px)
+      border-radius: 4px
+      p 
+        color: white
+        font-size: 30px
+        font-family: 'Montserrat', sans-serif
+        margin: 0 0 4px 0
+      .input-container
+        display: flex
+        justify-content: space-between
+        align-items: center
+        background-color: white
+        align-self: center
+        border-radius: 20px
+        border: none
+        margin: 0 0 6px 0
+        input
+          align-self: center
+          text-align: center
+          border: none
+          margin: 4px 0
+          font-size: 20px
+          width: 80%
+        input:focus
+          outline: none
+        input:-webkit-autofill
+          -webkit-box-shadow: 0 0 0 30px white inset !important
+        button
+          border: none
+          background-color: transparent
+          padding: 0
+          margin: 2px
+        button:focus
+          outline: none
+        button:hover
+          cursor: pointer
+
+  .form-modal
+    pointer-events: none
+    position: fixed
+    z-index: 1
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+    opacity: 0
+    -webkit-transition: opacity 0.5s ease-in-out
+    -moz-transition: opacity 0.5s ease-in-out
+    -ms-transition: opacity 0.5s ease-in-out
+    -o-transition: opacity 0.5s ease-in-out
+    transition: opacity 0.5s ease-in-out
+    .form-container
+      align-self: center
+      margin-bottom: 100px
+      border: 1px white solid
+      width: 250px
+      padding: 20px
+      backdrop-filter: blur(2px)
+      border-radius: 4px
+      p 
+        color: white
+        text-align: left
+        font-size: 16px
+        font-family: 'Montserrat', sans-serif
+        margin: 0 0 4px 0
+      .input-container
+        display: flex
+        justify-content: space-between
+        align-items: center
+        background-color: white
+        align-self: center
+        border-radius: 2px
+        border: none
+        margin: 0 0 6px 0
+        input
+          align-self: center
+          text-align: center
+          border: none
+          margin: 4px 0
+          font-size: 14px
+          width: 100%
+        input:focus
+          outline: none
+        input:-webkit-autofill
+          -webkit-box-shadow: 0 0 0 30px white inset !important
+        button
+          border: none
+          background-color: transparent
+          padding: 0
+          margin: 2px
+        button:focus
+          outline: none
+        button:hover
+          cursor: pointer
+
+    
+
+
+    
+
