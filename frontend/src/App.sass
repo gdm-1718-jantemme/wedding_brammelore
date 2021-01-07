@@ -147,6 +147,7 @@
     width: 100vw
     height: 100vh
     display: flex
+    flex-direction: column
     justify-content: center
     align-items: center
     opacity: 0
@@ -157,7 +158,6 @@
     transition: opacity 0.5s ease-in-out
     .form-container
       align-self: center
-      margin-bottom: 100px
       border: 1px white solid
       width: 250px
       padding: 20px
@@ -168,7 +168,7 @@
         text-align: left
         font-size: 16px
         font-family: 'Montserrat', sans-serif
-        margin: 0 0 4px 0
+        margin: 0 0 3px 0
       p:not(:first-child)
         margin-top: 10px
       .input-container
@@ -182,7 +182,8 @@
         margin: 0 0 6px 0
         input
           align-self: center
-          text-align: center
+          text-align: left
+          padding: 2px 8px
           border: none
           margin: 4px 0
           font-size: 14px
@@ -216,7 +217,7 @@
       label
         color: #2B2B2B
         text-align: left
-        font-size: 16px
+        font-size: 14px
         font-family: 'Montserrat', sans-serif
       input:before
         background-color: white
@@ -227,7 +228,39 @@
         border: none
         width: 100px
 
-
-
+  .checkbox_mail-container
+      width: 100%
+      display: flex
+      justify-content: flex-start
+      margin-top: 14px
+      label
+        color: white
+        text-align: left
+        font-size: 14px
+        font-family: 'Montserrat', sans-serif
     
+  .submit-button
+    width: 150px
+    height: 40px
+    background-color: white
+    margin-bottom: 150px
+    border-radius: 4px
+    border: none
+    padding: 0
+    olor: #2B2B2B
+    font-size: 14px
+    font-family: 'Montserrat', sans-serif
+  .submit-button:focus
+    outline: none
+  .submit-button:hover
+    cursor: pointer
+    background-color: #E5E5E5
+  .submit-button:active
+    background-color: #7C5B34
+    color: white
 
+  .divider
+    height: 20px
+    width: 1px
+    background-color: white
+    margin: 4px
