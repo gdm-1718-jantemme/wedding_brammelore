@@ -38,11 +38,20 @@ function App() {
           <div className="input-container">
             <input type="text" />
           </div>
-          <div className="input-container">
-            <input type="text" />
-          </div>
-          <div className="input-container">
-            <input type="text" />
+          <p>Aanwezig bij:</p>
+          <div className="checkboxes-container">
+            <div className="checkbox-container">
+              <input type="checkbox" id="dsgs" name="sgsg" value="Boat"></input>
+              <label htmlFor="sgsg">Receptie</label>
+            </div>
+            <div className="checkbox-container">
+              <input type="checkbox" id="dsgs" name="sgsg" value="Boat"></input>
+              <label htmlFor="sgsg">Diner</label>
+            </div>
+            <div className="checkbox-container">
+              <input type="checkbox" id="dsgs" name="sgsg" value="Boat"></input>
+              <label htmlFor="sgsg">Feest</label>
+            </div>
           </div>
         </div>
       </div>
