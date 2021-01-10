@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { IoChevronForwardOutline } from 'react-icons/io5/index.js';
 import { IconContext } from 'react-icons';
+import PulseLoader from 'react-spinners/PulseLoader';
+import { Checkmark } from 'react-checkmark';
+
 import './App.sass';
-import { check } from 'prettier';
 
 function App() {
   const [code, setCode] = useState('');
@@ -10,6 +12,7 @@ function App() {
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [personAmount, setPersonAmount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [receptionIsGoing, setReceptionIsGoing] = useState(false);
   const [dinerIsGoing, setDinerIsGoing] = useState(false);
   const [partyIsGoing, setPartyIsGoing] = useState(false);
@@ -20,6 +23,7 @@ function App() {
   const [festivitiesWarning, setFestivitiesWarning] = useState(<></>);
   const [amountWarning, setAmountWarning] = useState(<></>);
   const [emailWarning, setEmailWarning] = useState(<></>);
+  const [checkmark, setCheckmark] = useState(<></>);
 
   useEffect(() => {
     if (personAmount > 5) setPersonAmount(5);
@@ -145,6 +149,7 @@ function App() {
   const submitForm = () => {
     if (checkForm()) {
       clearAllWarnings();
+      setIsLoading(true);
 
       fetch('http://localhost:5000/api/attendees/add', {
         headers: {
@@ -173,6 +178,13 @@ function App() {
         .then((res) => res.json())
         .then((res) => {
           console.log(res);
+          setTimeout(() => {
+            setIsLoading(false);
+            document.getElementById('form-modal').classList.remove('appear');
+            document.getElementById('finish-modal').classList.add('appear');
+            //document.getElementById('left_half').classList.remove('fullWidth');
+            setCheckmark(<Checkmark size="60px" color="#223344" />);
+          }, 1500); // Most connections are so fast the loading spinner wont even trigger, so i add a delay to let the user know something's happening/happened already
 
           if (res.data.accepted) {
             renderFestivities(res.data.festivities);
@@ -216,12 +228,12 @@ function App() {
         document.getElementById('checkboxes-container').classList.add('wrong');
         if (personAmount > 0 && !receptionIsGoing && !dinerIsGoing && !partyIsGoing) {
           document.getElementById('checkboxes-container').classList.add('wrong');
-          setFestivitiesWarning(<em className="wrong-text">Geen aanwezigheid aangeduidt</em>);
+          setFestivitiesWarning(<em className="wrong-text">Geen aanwezigheid aangeduid</em>);
           setAmountWarning(<></>);
           document.getElementById('amount-input').classList.remove('wrong');
         } else if (personAmount === 0 && (receptionIsGoing || dinerIsGoing || partyIsGoing)) {
           document.getElementById('amount-input').classList.add('wrong');
-          setAmountWarning(<em className="wrong-text">Geef in met hoeveel personen jullie komen</em>);
+          setAmountWarning(<em className="wrong-text">Geef in met hoeveel personen je komt</em>);
           setFestivitiesWarning(<></>);
           document.getElementById('checkboxes-container').classList.remove('wrong');
         }
@@ -338,8 +350,15 @@ function App() {
         </form>
         <div className="divider" />
         <button id="submit" className="submit-button" onClick={() => submitForm()}>
-          Versturen
+          {isLoading ? <PulseLoader color={'#7C5B34'} loading={true} size={6} /> : 'Versturen'}
         </button>
+      </div>
+
+      <div id="finish-modal" className="finish-modal">
+        <div>
+          {checkmark}
+          <p>Bedankt voor het antwoorden op je uitnodiging!</p>
+        </div>
       </div>
 
       <div id="left_half" className="left_half-container">

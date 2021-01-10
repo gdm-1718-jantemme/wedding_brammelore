@@ -144,7 +144,7 @@
     top: 0
     left: 0
     width: 100vw
-    height: 100vh
+    min-height: 100vh
     display: flex
     flex-direction: column
     justify-content: center
@@ -156,10 +156,10 @@
     -o-transition: opacity 0.5s ease-in-out
     transition: opacity 0.5s ease-in-out
     .form-container
-      align-self: center
       border: 1px white solid
       width: 250px
       padding: 20px
+      margin-top: 120px
       backdrop-filter: blur(2px)
       border-radius: 4px
       p
@@ -238,6 +238,39 @@
         border: none
         width: 100px
 
+  .finish-modal
+    pointer-events: none
+    position: fixed
+    z-index: 2
+    top: 0
+    left: 0
+    width: 100vw
+    min-height: 100vh
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    opacity: 0
+    -webkit-transition: opacity 0.5s ease-in-out
+    -moz-transition: opacity 0.5s ease-in-out
+    -ms-transition: opacity 0.5s ease-in-out
+    -o-transition: opacity 0.5s ease-in-out
+    transition: opacity 0.5s ease-in-out
+    div
+      display: flex
+      flex-direction: column
+      padding: 20px 40px
+      margin-bottom: 100px
+      border: 1px solid white
+      border-radius: 4px
+      backdrop-filter: blur(2px)
+      p
+        color: white
+        text-align: left
+        font-size: 20px
+        font-family: 'Montserrat', sans-serif
+
+
   .checkbox_mail-container
       width: 100%
       display: flex
@@ -275,14 +308,14 @@
     background-color: white
     margin: 4px
 
-.wrong
-  border: 3px solid #F24040 !important
-  background-color: #F07777 !important
-  input:-webkit-autofill
-    -webkit-box-shadow: 0 0 0 30px #F07777 inset !important
-  
-.wrong-animation
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
+  .wrong
+    border: 3px solid #F24040 !important
+    background-color: #F07777 !important
+    input:-webkit-autofill
+      -webkit-box-shadow: 0 0 0 30px #F07777 inset !important
+    
+  .wrong-animation
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
 
 
 @keyframes shake
