@@ -78,6 +78,7 @@ app.post('/api/attendees/add', (req, res) => {
 
   attendee.save()
   .then(() => {
+    console.log('Attendee successfully added.')
     res.status(200).send({
       succes: 'true',
       message: 'attendee added.'

@@ -15,6 +15,11 @@ function App() {
   const [partyIsGoing, setPartyIsGoing] = useState(false);
   //const [emailField, setEmailField] = useState(<></>);
   const [festivitiesCheckboxes, setFestivitiesCheckboxes] = useState(<></>);
+  const [firstNameWarning, setFirstNameWarning] = useState(<></>);
+  const [lastnameWarning, setLastnameWarning] = useState(<></>);
+  const [festivitiesWarning, setFestivitiesWarning] = useState(<></>);
+  const [amountWarning, setAmountWarning] = useState(<></>);
+  const [emailWarning, setEmailWarning] = useState(<></>);
 
   useEffect(() => {
     if (personAmount > 5) setPersonAmount(5);
@@ -108,48 +113,125 @@ function App() {
     }
   };
 
-  const submitForm = () => {
-    fetch('http://localhost:5000/api/attendees/add', {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        name: firstname,
-        surname: lastname,
-        reception: {
-          isGoing: receptionIsGoing,
-          attendees: personAmount,
-        },
-        diner: {
-          isGoing: dinerIsGoing,
-          attendees: personAmount,
-        },
-        party: {
-          isGoing: partyIsGoing,
-          attendees: personAmount,
-        },
-        email: email,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
+  const isImpossible = () => {
+    if (personAmount > 0 && !receptionIsGoing && !dinerIsGoing && !partyIsGoing) return true;
+    else if (personAmount === 0 && (receptionIsGoing || dinerIsGoing || partyIsGoing)) return true;
+    else return false;
+  };
 
-        if (res.data.accepted) {
-          renderFestivities(res.data.festivities);
-          animate();
-          inputContainer.classList.remove('wrong');
-        } else {
-          inputContainer.classList.add('wrong');
-          inputContainer.classList.add('wrong-animation');
-          setTimeout(() => {
-            inputContainer.classList.remove('wrong-animation');
-          }, 820);
-        }
+  const isEmailValid = (emailString) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(emailString).toLowerCase());
+  };
+
+  const checkForm = () => {
+    if (firstname === '' || lastname === '' || !isEmailValid(email) || isImpossible()) return false;
+    else return true;
+  };
+
+  const clearAllWarnings = () => {
+    document.getElementById('firstname-input').classList.remove('wrong');
+    document.getElementById('lastname-input').classList.remove('wrong');
+    document.getElementById('email-input').classList.remove('wrong');
+    document.getElementById('amount-input').classList.remove('wrong');
+    document.getElementById('checkboxes-container').classList.remove('wrong');
+    setFirstNameWarning(<></>);
+    setLastnameWarning(<></>);
+    setFestivitiesWarning(<></>);
+    setAmountWarning(<></>);
+    setEmailWarning(<></>);
+  };
+
+  const submitForm = () => {
+    if (checkForm()) {
+      clearAllWarnings();
+
+      fetch('http://localhost:5000/api/attendees/add', {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          name: firstname,
+          surname: lastname,
+          reception: {
+            isGoing: receptionIsGoing,
+            attendees: personAmount,
+          },
+          diner: {
+            isGoing: dinerIsGoing,
+            attendees: personAmount,
+          },
+          party: {
+            isGoing: partyIsGoing,
+            attendees: personAmount,
+          },
+          email: email,
+        }),
       })
-      .catch((err) => console.log(err));
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+
+          if (res.data.accepted) {
+            renderFestivities(res.data.festivities);
+            animate();
+            inputContainer.classList.remove('wrong');
+          } else {
+            inputContainer.classList.add('wrong');
+            inputContainer.classList.add('wrong-animation');
+            setTimeout(() => {
+              inputContainer.classList.remove('wrong-animation');
+            }, 820);
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      console.log('Form not correct.');
+      if (firstname === '') {
+        document.getElementById('firstname-input').classList.add('wrong');
+        setFirstNameWarning(<em className="wrong-text">Verplicht</em>);
+      } else {
+        document.getElementById('firstname-input').classList.remove('wrong');
+        setFirstNameWarning(<></>);
+      }
+      if (lastname === '') {
+        document.getElementById('lastname-input').classList.add('wrong');
+        setLastnameWarning(<em className="wrong-text">Verplicht</em>);
+      } else {
+        document.getElementById('lastname-input').classList.remove('wrong');
+        setLastnameWarning(<></>);
+      }
+      if (!isEmailValid(email)) {
+        document.getElementById('email-input').classList.add('wrong');
+        if (email === '') setEmailWarning(<em className="wrong-text">Verplicht</em>);
+        else setEmailWarning(<em className="wrong-text">Geen geldig emailadres</em>);
+      } else {
+        document.getElementById('email-input').classList.remove('wrong');
+        setEmailWarning(<></>);
+      }
+      if (isImpossible()) {
+        document.getElementById('amount-input').classList.add('wrong');
+        document.getElementById('checkboxes-container').classList.add('wrong');
+        if (personAmount > 0 && !receptionIsGoing && !dinerIsGoing && !partyIsGoing) {
+          document.getElementById('checkboxes-container').classList.add('wrong');
+          setFestivitiesWarning(<em className="wrong-text">Geen aanwezigheid aangeduidt</em>);
+          setAmountWarning(<></>);
+          document.getElementById('amount-input').classList.remove('wrong');
+        } else if (personAmount === 0 && (receptionIsGoing || dinerIsGoing || partyIsGoing)) {
+          document.getElementById('amount-input').classList.add('wrong');
+          setAmountWarning(<em className="wrong-text">Geef in met hoeveel personen jullie komen</em>);
+          setFestivitiesWarning(<></>);
+          document.getElementById('checkboxes-container').classList.remove('wrong');
+        }
+      } else {
+        document.getElementById('amount-input').classList.remove('wrong');
+        document.getElementById('checkboxes-container').classList.remove('wrong');
+        setFestivitiesWarning(<></>);
+        setAmountWarning(<></>);
+      }
+    }
   };
 
   /*
@@ -196,8 +278,8 @@ function App() {
 
       <div id="form-modal" className="form-modal">
         <form className="form-container" autoComplete="on">
-          <p>Voornaam</p>
-          <div className="input-container">
+          <p>Voornaam {firstNameWarning}</p>
+          <div className="input-container" id="firstname-input">
             <input
               type="text"
               placeholder="Bv. Hannelore"
@@ -207,8 +289,8 @@ function App() {
               autoComplete="given-name"
             />
           </div>
-          <p>Achternaam</p>
-          <div className="input-container">
+          <p>Achternaam {lastnameWarning}</p>
+          <div className="input-container" id="lastname-input">
             <input
               type="text"
               placeholder="Bv. Temmerman"
@@ -217,20 +299,22 @@ function App() {
               autoComplete="family-name"
             />
           </div>
-          <p>Aanwezig bij</p>
-          <div className="checkboxes-container">{festivitiesCheckboxes}</div>
-          <p>Aantal personen</p>
-          <div className="input-container">
+          <p>Aanwezig bij {festivitiesWarning}</p>
+          <div className="checkboxes-container" id="checkboxes-container">
+            {festivitiesCheckboxes}
+          </div>
+          <p>Aantal personen {amountWarning}</p>
+          <div className="input-container" id="amount-input">
             <input
               type="number"
               min={0}
               max={5}
               value={personAmount}
-              onChange={(e) => setPersonAmount(e.target.value)}
+              onChange={(e) => setPersonAmount(parseInt(e.target.value))}
             />
           </div>
-          <p>Email</p>
-          <div className="input-container">
+          <p>Email {emailWarning}</p>
+          <div className="input-container" id="email-input">
             <input
               type="email"
               placeholder="Bv. hannelore@gmail.com"
@@ -265,7 +349,7 @@ function App() {
             <p className="title">RSVP</p>
             <div className="dot" />
           </div>
-          <p className="date">30.08.21</p>
+          <p className="date">03.07.21</p>
         </div>
         <div className="names_and-container">
           <p>&</p>
