@@ -3,6 +3,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import nodemailer from 'nodemailer'
 
 import codes from './codes'
 import Attendee from './models/Attendee.js'
@@ -19,6 +20,14 @@ var corsOptions = {
   origin: 'http://localhost:3000',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'Hannelore.en.Bram@gmail.com',
+    pass: 'N&r6XKUnPwSn'
+  }
+});
 
 app.use(cors(corsOptions))
 app.use(bodyParser.json());
@@ -79,6 +88,7 @@ app.post('/api/attendees/add', (req, res) => {
   attendee.save()
   .then(() => {
     console.log('Attendee successfully added.')
+    sendConfirmation(attendee.email, attendee.name, attendee.reception, attendee.diner, attendee.party)
     res.status(200).send({
       succes: 'true',
       message: 'attendee added.'
@@ -95,6 +105,32 @@ app.post('/api/attendees/add', (req, res) => {
     })
   })
 })
+
+const sendConfirmation = (recepientEmail, name, reception, diner, party) => {
+  let content = ''
+
+  if(!reception.isGoing && !diner.isGoing && !party.isGoing)
+    content = `Jammer dat je er niet bij kan zijn ${name}. Toch bedankt om dit aan ons te laten weten! \n\nGroetjes van Hannelore & Bram`
+  else
+    content = `Bedankt om op onze uitnodiging te antwoorden ${name}. We hebben ontvangen dat je met ${reception.attendees} personen naar de volgende festiviteiten komt: ${reception.isGoing ? '\n- Receptie' : ''}${diner.isGoing ? '\n- Diner' : ''}${party.isGoing ? '\n- Avondfeest' : ''}\n\nGroetjes van Hannelore & Bram`
+
+  if(content !== '') {
+    const mailOptions = {
+      from: 'Hannelore.en.Bram@gmail.com',
+      to: recepientEmail,
+      subject: 'Bevestiging: Trouw Hannelore & Bram',
+      text: content
+    }
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    })
+  }
+}
 
 const PORT = 5000
 
