@@ -5,6 +5,7 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import { Checkmark } from 'react-checkmark';
 
 import './App.sass';
+import CodeModal from './components/modals/codeModal';
 
 function App() {
   const [code, setCode] = useState('');
@@ -30,36 +31,6 @@ function App() {
     else if (personAmount < 0) setPersonAmount(0);
     return;
   }, [personAmount]);
-
-  const checkCode = () => {
-    const inputContainer = document.getElementById('input-container');
-
-    fetch('http://localhost:5000/api/codes/check', {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify({ code: code }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-
-        if (res.data.accepted) {
-          renderFestivities(res.data.festivities);
-          animate();
-          inputContainer.classList.remove('wrong');
-        } else {
-          inputContainer.classList.add('wrong');
-          inputContainer.classList.add('wrong-animation');
-          setTimeout(() => {
-            inputContainer.classList.remove('wrong-animation');
-          }, 820);
-        }
-      })
-      .catch((err) => console.log(err));
-  };
 
   const renderFestivities = (festivities) => {
     const toRender = festivities.map((festivity) => {
@@ -95,6 +66,7 @@ function App() {
   };
 
   const animate = () => {
+    console.log('animating');
     document.getElementById('left_half').classList.add('fullWidth');
     document.getElementById('code-modal').classList.add('disappear');
     setTimeout(() => {
@@ -108,12 +80,6 @@ function App() {
       const index = Array.prototype.indexOf.call(form, e.target);
       form.elements[index + 1].focus();
       e.preventDefault();
-    }
-  };
-
-  const handleCodeEnter = (e) => {
-    if (e.keyCode === 13) {
-      checkCode();
     }
   };
 
@@ -268,28 +234,7 @@ function App() {
 
   return (
     <div className="App">
-      <div id="code-modal" className="code-modal">
-        <div className="code-container">
-          <p>Code</p>
-          <div className="input-container" id="input-container">
-            <div style={{ width: '30px', height: '30px' }} />
-            <input
-              type="text"
-              name="code"
-              id="input_code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              onKeyDown={(e) => handleCodeEnter(e)}
-              autoComplete="off"
-            />
-            <button onClick={() => checkCode()}>
-              <IconContext.Provider value={{ style: { padding: 0, margin: 0, width: '30px', height: '30px' } }}>
-                <IoChevronForwardOutline />
-              </IconContext.Provider>
-            </button>
-          </div>
-        </div>
-      </div>
+      <CodeModal nextModal={animate} renderFestivities={renderFestivities} />
 
       <div id="form-modal" className="form-modal">
         <form className="form-container" autoComplete="on">
