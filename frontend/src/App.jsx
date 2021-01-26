@@ -181,6 +181,9 @@ function App() {
           setTimeout(() => {
             setIsLoading(false);
             document.getElementById('form-modal').classList.remove('appear');
+            setTimeout(() => {
+              document.getElementById('form-modal').style.display = 'none';
+            }, 500); // Setting display to none because overflow issue on iphone 5
             document.getElementById('finish-modal').classList.add('appear');
             //document.getElementById('left_half').classList.remove('fullWidth');
             setCheckmark(<Checkmark size="60px" color="#223344" />);
@@ -359,6 +362,15 @@ function App() {
           {checkmark}
           <p>Bedankt voor het antwoorden op je uitnodiging!</p>
         </div>
+      </div>
+
+      <div className="mobile-header">
+        <div className="rsvp-container">
+          <div className="dot" />
+          <p className="title">RSVP</p>
+          <div className="dot" />
+        </div>
+        <p className="date">03.07.21</p>
       </div>
 
       <div id="left_half" className="left_half-container">
