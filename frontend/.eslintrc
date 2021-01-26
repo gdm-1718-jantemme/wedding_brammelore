@@ -18,6 +18,7 @@
   ],
   "rules":  {
     "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-    "react/prop-types": ["error", { "ignore": ["navigation"] }]
+    "react/prop-types": ["error", { "ignore": ["navigation"] }],
+    "prettier/prettier": ["error", {"endOfLine":"auto" }]
   }
 }
