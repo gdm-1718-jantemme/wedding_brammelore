@@ -4,9 +4,16 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import nodemailer from 'nodemailer'
+import fs from 'fs'
+import https from 'https'
 
 import codes from './codes'
 import Attendee from './models/Attendee.js'
+
+const privateKey  = fs.readFileSync('key.pem', 'utf8');
+const certificate = fs.readFileSync('cert.pem', 'utf8');
+
+const credentials = {key: privateKey, cert: certificate};
 
 dotenv.config()
 
@@ -17,7 +24,7 @@ mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology
 const app = express()
 
 var corsOptions = {
-  origin: ['http://localhost:3000', 'http://192.168.5.135:3000'],
+  origin: ['http://localhost:3000', 'http://192.168.5.135:3000', 'https://practical-wilson-6f16d0.netlify.app/'],
   optionsSuccessStatus: 200
 }
 
@@ -134,6 +141,8 @@ const sendConfirmation = (recepientEmail, name, reception, diner, party) => {
 
 const PORT = 5000
 
-app.listen(PORT, () => {
+const httpsServer = https.createServer(credentials, app)
+
+httpsServer.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
