@@ -11,7 +11,7 @@ function CodeModal(props) {
   const checkCode = () => {
     const inputContainer = document.getElementById('input-container');
 
-    fetch('http://78.21.137.1:5001/api/codes/check', {
+    fetch('https://78.21.137.1:5001/api/codes/check', {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
