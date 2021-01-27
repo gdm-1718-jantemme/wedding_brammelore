@@ -1,20 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { IoChevronForwardOutline } from 'react-icons/io5/index.js';
-import { IconContext } from 'react-icons';
-import PulseLoader from 'react-spinners/PulseLoader';
 import { Checkmark } from 'react-checkmark';
 
 import './App.sass';
 import CodeModal from './components/modals/codeModal';
 import FormModal from './components/modals/formModal';
+import FinishModal from './components/modals/finishModal';
+import LeftHalfBG from './components/leftHalfBG';
+import MobileHeader from './components/mobileHeader';
 
 function App() {
   const [receptionIsGoing, setReceptionIsGoing] = useState(false);
   const [dinerIsGoing, setDinerIsGoing] = useState(false);
   const [partyIsGoing, setPartyIsGoing] = useState(false);
   //const [emailField, setEmailField] = useState(<></>);
-  const [festivitiesCheckboxes, setFestivitiesCheckboxes] = useState(<></>);
+  const [festivitiesCheckboxes, setFestivitiesCheckboxes] = useState([]);
   const [checkmark, setCheckmark] = useState(<></>);
+
+  useEffect(() => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    window.addEventListener('resize', () => {
+      // We execute the same script as before
+      vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    });
+
+    return;
+  }, []);
 
   const renderFestivities = (festivities) => {
     const toRender = festivities.map((festivity) => {
@@ -81,39 +93,12 @@ function App() {
         receptionIsGoing={receptionIsGoing}
       />
 
-      <div id="finish-modal" className="finish-modal">
-        <div>
-          {checkmark}
-          <p>Bedankt voor het antwoorden op je uitnodiging!</p>
-        </div>
-      </div>
+      <FinishModal checkmark={checkmark} />
 
-      <div className="mobile-header">
-        <div className="rsvp-container">
-          <div className="dot" />
-          <p className="title">RSVP</p>
-          <div className="dot" />
-        </div>
-        <p className="date">03.07.21</p>
-      </div>
+      <MobileHeader />
 
-      <div id="left_half" className="left_half-container">
-        <div>
-          <div className="rsvp-container">
-            <div className="dot" />
-            <p className="title">RSVP</p>
-            <div className="dot" />
-          </div>
-          <p className="date">03.07.21</p>
-        </div>
-        <div className="names_and-container">
-          <p>&</p>
-          <div className="names-container">
-            <p>Bram</p>
-            <p>Hannelore</p>
-          </div>
-        </div>
-      </div>
+      <LeftHalfBG />
+
       <div className="background" />
     </div>
   );

@@ -2,13 +2,14 @@
   overflow: hidden
   text-align: center
   min-width: 100vw
-  min-height: 100vh
+  //min-height: 100vh
+  height: calc(var(--vh, 1vh) * 100)
   display: flex
   flex-direction: column
 
   .names_and-container
     box-sizing: border-box
-    width: 50vw
+    width: 50%
     padding: 80px
     display: flex
     justify-content: center
@@ -27,15 +28,15 @@
       align-content: flex-start
 
   .background
-    width: 50vw
-    height: 100vh
+    width: 50%
+    height: 100%
     background-image: url("./assets/images/bg.jpg")
     background-size: cover
     background-position: center
     align-self: flex-end
 
   .fullWidth
-    width: 100vw !important
+    width: 100% !important
 
   .disappear
     opacity: 0 !important
@@ -45,8 +46,8 @@
     pointer-events: auto !important
 
   .left_half-container
-    height: 100vh
-    width: 50vw
+    height: 100%
+    width: 50%
     display: flex
     flex-direction: column
     justify-content: space-between
@@ -85,8 +86,8 @@
     z-index: 1
     top: 0
     left: 0
-    width: 100vw
-    height: 100vh
+    width: 100%
+    height: 100%
     display: flex
     justify-content: center
     align-items: center
@@ -103,7 +104,7 @@
       width: 250px
       padding: 20px
       backdrop-filter: blur(2px)
-      border-radius: 4px
+      border-radius: 2px
       p 
         color: white
         font-size: 30px
@@ -115,7 +116,7 @@
         align-items: center
         background-color: white
         align-self: center
-        border-radius: 20px
+        border-radius: 30px
         border: 3px solid white
         margin: 0 0 6px 0
         input
@@ -144,8 +145,8 @@
     z-index: 1
     top: 0
     left: 0
-    width: 100vw
-    min-height: 100vh
+    width: 100%
+    min-height: 100%
     display: flex
     flex-direction: column
     justify-content: center
@@ -221,7 +222,7 @@
     .checkbox-container:first-child
       margin: 0
     .checkbox-container
-      width: 100vw
+      width: 100%
       display: flex
       justify-content: flex-start
       margin-top: 6px
@@ -245,8 +246,8 @@
     z-index: 2
     top: 0
     left: 0
-    width: 100vw
-    min-height: 100vh
+    width: 100%
+    min-height: 100%
     display: flex
     flex-direction: column
     justify-content: center
@@ -328,6 +329,7 @@
     z-index: 10
     left: 0
     right: 0
+    top: 0
     text-align: center
     background-color: transparent
     .date
@@ -335,6 +337,7 @@
       color: white
       font-weight: lighter
       font-size: 20px
+      margin: 8px
     .rsvp-container
       align-self: center
       height: 20px
@@ -369,7 +372,6 @@
 
 $breakpoint-big: 1300px;
 $breakpoint-medium: 750px;
-$breakpoint-big: 1300px;
 
 @media (max-width: $breakpoint-big)
   .App
@@ -387,7 +389,7 @@ $breakpoint-big: 1300px;
         height: 70px
     .left_half-container
       height: 100vh
-      width: 0vw
+      width: 0%
       .date
         display: none
       .rsvp-container
@@ -403,6 +405,16 @@ $breakpoint-big: 1300px;
     .code-modal
       .code-container
         backdrop-filter: blur(6px)
+        margin-bottom: 10px
 
+    .form-container
+      margin-top: 80px !important
     .submit-button
-      margin-bottom: 10px
+      margin-bottom: 6px
+
+    .background
+      width: 50%
+
+    .checkboxes-container
+      .checkbox-container
+        margin-top: 10px

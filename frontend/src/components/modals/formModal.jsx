@@ -68,7 +68,7 @@ function FormModal(props) {
       clearAllWarnings();
       setIsLoading(true);
 
-      fetch('http://localhost:5000/api/attendees/add', {
+      fetch('http://192.168.5.135:5000/api/attendees/add', {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
